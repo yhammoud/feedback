@@ -11,12 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yfeedback.DAO.LoginDAO;
+import com.yfeedback.DAO.LoginDAOImpl;
+
+
 /**
  * Servlet implementation class SignIn
  */
 @WebServlet("/SignIn")
 public class SignIn extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private LoginDAO loginDao;
 	
        
     /**
@@ -32,6 +37,7 @@ public class SignIn extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
+		loginDao = new LoginDAOImpl();
 		super.init(config);
 	}
 
@@ -58,22 +64,21 @@ public class SignIn extends HttpServlet {
 		response.setContentType("text/html");  
 		PrintWriter pw = response.getWriter();
 		String email = request.getParameter("email");//will return value
-		System.out.println("Email: " + email);
 		String password = request.getParameter("password");
-		System.out.println("Password: " +  password);
 		
 		if (email == null || email.length()==0
 				|| password == null || password.length() == 0) {
 			RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
 	        rd.include(request, response);
 	        pw.print("Please enter your email and password to sign in!");
-		} else if (email.equals("yhammoud93@gmail.com") && password.equals("Password")) {
+		} else if(loginDao.authenticate(email, password)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
 			rd.forward(request, response);
-		} else {
+		}
+		else {
 			RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-			rd.include(request, response);
-			pw.print("Wrong email or password!");
+	        rd.include(request, response);
+	        pw.print("Wrong email or password!");
 		}
 	}
 

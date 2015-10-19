@@ -49,12 +49,29 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public boolean deleteUser(int userID) {
 		// TODO Auto-generated method stub
-		return false;
+		boolean update = false;
+		Connection connection = DBHandler.getConnection();
+		String sql = "DELETE FROM User where userID = ?";
+		try {
+			prestmt = connection.prepareStatement(sql);
+			resultSet = prestmt.executeQuery();
+			update = resultSet.next();
+		} catch (SQLException e) {
+			System.out.println("ERROR: unable to delete user from the database.");
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(connection);
+			DBUtil.close(resultSet);
+			DBUtil.close(prestmt);
+			}
+		return update;
 	}
 
 	@Override
 	public void updateUser(User user) {
 		// TODO Auto-generated method stub
+		
+		
 		
 	}
 

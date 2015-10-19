@@ -7,7 +7,6 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Swim log and feedback system">
     <meta name="author" content="Youssef Hammoud">
-    <!-- link rel="icon" href="../../favicon.ico"-->
 
     <title>Welcome to yFeedBack</title>
 
